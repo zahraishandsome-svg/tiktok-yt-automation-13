@@ -1,0 +1,34 @@
+# TikTok to YouTube Channel Pairs
+#
+# ch13 - onboarded 2026-07-29. Own repo + own GCP project under the channel's own
+# Gmail, keeping every channel's identity de-correlated.
+
+channels:
+  - id: channel_13
+    tiktok_username: "thejacquelin"
+    youtube_channel_name: "thejacquelin"
+    # The Google account that owns this YouTube channel (given at onboarding).
+    owner_email: "thejacquelinn@gmail.com"
+    # No fixed_title - the TikTok caption is used as the YouTube title.
+    google_credentials_file: "credentials/channel_13_client_secret.json"
+    oauth_token_file: "tokens/channel_13_token.json"
+    videos_per_day: 2
+    description_footer: ""
+    default_tags:
+      - comedy
+      - sketch
+      - parodie
+      - viral
+    youtube_category_id: "23"      # Comedy
+    enabled: true
+    max_retry_days: 7
+    shorts_max_seconds: 180
+    upload_mode: popular_split
+    # Slot 1 = newest unposted TikTok. Slot 2 = most-VIEWED unposted TikTok
+    # (across the whole profile). Both upload as Shorts - the profile's longest
+    # video is 101s, so nothing here is ever longform.
+    max_download_candidates: 20
+    # German-language content - timed for a European audience, same slots as ch4/ch9.
+    slot_publish_times_utc:
+      1: "17:00"   # PUBLIC at 7 PM CEST (10 PM PKT)
+      2: "19:00"   # PUBLIC at 9 PM CEST (12 AM PKT)
