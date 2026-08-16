@@ -22,17 +22,26 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install version helper
+        run: pip install --quiet packaging
+
       - name: Get latest yt-dlp version
         id: latest
         run: |
-          LATEST=$(pip index versions yt-dlp 2>/dev/null | grep -oP '(?<=Available versions: )[\d.]+' | head -1)
+          # Track NIGHTLY builds. TikTok fixes ship there first — the stable
+          # channel sat on 2026.7.4 for six weeks while every upload failed.
+          LATEST=$(curl -s https://pypi.org/pypi/yt-dlp/json | python3 -c "
+          import sys, json
+          from packaging.version import Version
+          rel = json.load(sys.stdin)['releases']
+          print(max(rel, key=Version))")
           echo "version=$LATEST" >> $GITHUB_OUTPUT
           echo "Latest yt-dlp: $LATEST"
 
       - name: Get current pinned version
         id: current
         run: |
-          CURRENT=$(grep '^yt-dlp' requirements.txt | grep -oP '[\d.]+$')
+          CURRENT=$(grep '^yt-dlp' requirements.txt | grep -oP '(?<=>=)[\w.]+$')
           echo "version=$CURRENT" >> $GITHUB_OUTPUT
           echo "Current yt-dlp: $CURRENT"
 
@@ -51,6 +60,7 @@ jobs:
           fi
           if [ "$LATEST" != "$CURRENT" ]; then
             sed -i "s/^yt-dlp>=.*/yt-dlp>=${LATEST}/" requirements.txt
+            grep -q "^--pre" requirements.txt || sed -i "1i --pre" requirements.txt
             echo "updated=true" >> $GITHUB_OUTPUT
             echo "Updated yt-dlp from $CURRENT to $LATEST"
           else
