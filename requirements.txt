@@ -1,9 +1,5 @@
 # Core
-# Nightly, not stable: TikTok broke on 2026-08-14 and the fix only exists in
-# yt-dlp nightlies (stable 2026.7.4 fails every TikTok video). --pre lets pip
-# see .devN builds. update-ytdlp.yml keeps this pointed at the newest nightly.
---pre
-yt-dlp>=2026.8.16.20253.dev0
+yt-dlp>=2026.7.4
 # Browser-impersonation backend for yt-dlp — required so TikTok serves a parseable
 # page (fixes 'Unable to extract universal data for rehydration'). Used by
 # tiktok_downloader._inject_impersonate.
