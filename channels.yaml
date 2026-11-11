@@ -21,6 +21,8 @@ channels:
       - viral
     youtube_category_id: "23"      # Comedy
     enabled: true
+    # Long uploads get a Claude-written title + description in this language (owner 2026-11-12, long only)
+    ai_longform_metadata: German
     max_retry_days: 7
     shorts_max_seconds: 180
     upload_mode: popular_split
